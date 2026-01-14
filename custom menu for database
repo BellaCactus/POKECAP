@@ -1,0 +1,126 @@
+function onOpen() {
+  createPokedexMenu();
+  createPvpMenu();
+}
+
+function createPokedexMenu() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Pokedex')
+    .addItem('Hide Everything Except Mega', 'hideEverythingExceptMega')
+    .addItem('Hide Everything Except Shadow', 'hideEverythingExceptShadow')
+    .addItem('Search Pokemon', 'showInputDialog')
+    .addItem('Search By Type', 'showTypeDialog')
+    .addToUi();
+}
+
+function hideEverythingExceptMega() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var dataRange = sheet.getRange("A4:A14446"); // Adjust the range as needed
+
+  var values = dataRange.getValues();
+
+  for (var i = 0; i < values.length; i++) {
+    var cellValue = values[i][0].toString();
+    if (cellValue.indexOf("Mega") === -1) {
+      sheet.hideRows(i + 4); // +4 to account for the offset in the range
+    }
+  }
+}
+
+function hideEverythingExceptShadow() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var dataRange = sheet.getRange("A4:A14446"); // Adjust the range as needed
+
+  var values = dataRange.getValues();
+
+  for (var i = 0; i < values.length; i++) {
+    var cellValue = values[i][0].toString();
+    if (cellValue.indexOf("Shadow") === -1) {
+      sheet.hideRows(i + 4); // +4 to account for the offset in the range
+    }
+  }
+}
+
+function showInputDialog() {
+  var ui = SpreadsheetApp.getUi();
+  var result = ui.prompt('Enter Pokemon name to show matching rows:');
+  if (result.getSelectedButton() == ui.Button.OK) {
+    var searchTerm = result.getResponseText();
+    showMatchingRows(searchTerm);
+  }
+}
+
+function showMatchingRows(searchTerm) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var dataRange = sheet.getRange("A4:A14446"); // Adjust the range as needed
+  var values = dataRange.getValues();
+
+  // Reset hidden rows
+  sheet.showRows(4, values.length);
+
+  for (var i = 0; i < values.length; i++) {
+    var cellValue = values[i][0].toString();
+    if (cellValue.toLowerCase() !== searchTerm.toLowerCase()) {
+      sheet.hideRows(i + 4); // +4 to account for the offset in the range
+    }
+  }
+}
+
+function showTypeDialog() {
+  var ui = SpreadsheetApp.getUi();
+  var result = ui.prompt('Enter Pokemon type to show matching rows (e.g., Dark):');
+  if (result.getSelectedButton() == ui.Button.OK) {
+    var searchType = result.getResponseText();
+    showRowsByType(searchType);
+  }
+}
+
+function showRowsByType(searchType) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var typeRange = sheet.getRange("B4:B14446"); // Adjust the range as needed
+  var typeValues = typeRange.getValues();
+
+  // Reset hidden rows
+  sheet.showRows(4, typeValues.length);
+
+  for (var i = 0; i < typeValues.length; i++) {
+    var cellValue = typeValues[i][0].toString();
+    if (cellValue.toLowerCase().indexOf(searchType.toLowerCase()) === -1) {
+      sheet.hideRows(i + 4); // +4 to account for the offset in the range
+    }
+  }
+}
+
+function createPvpMenu() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('PVP Menu')
+    .addItem('Filter by Highest Attack', 'sortByHighestAttack')
+    .addItem('Filter by Highest Defense', 'sortByHighestDefense')
+    .addItem('Filter by Highest Stamina', 'sortByHighestStamina')
+    .addItem('Filter by Highest Overall Score', 'sortByHighestOverallScore')
+    .addToUi();
+}
+
+function sortByHighestAttack() {
+  sortByHighestValue(6); // Column F (Attack)
+}
+
+function sortByHighestDefense() {
+  sortByHighestValue(7); // Column G (Defense)
+}
+
+function sortByHighestStamina() {
+  sortByHighestValue(8); // Column H (Stamina)
+}
+
+function sortByHighestOverallScore() {
+  sortByHighestValue(2); // Column B (Overall Score)
+}
+
+function sortByHighestValue(columnIndex) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var dataRange = sheet.getRange("A4:R891"); // Adjust the range as needed
+
+  // Sort the data in descending order based on the specified column
+  dataRange.sort({ column: columnIndex, ascending: false });
+}
