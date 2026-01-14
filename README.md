@@ -1,11 +1,13 @@
 <div align="center">
 
-# POKECAP (google sheets database)
+# <3 POKECAP (google sheets database)
 
 a pokemon database built in **google sheets** with **google apps script** tools.  
-designed for fast searching, filtering, and pvp sorting inside the sheet.
+fast searching, filtering, and pvp sorting inside a spreadsheet.
 
-static data + simple automation. no backend.
+![Google Sheets](https://img.shields.io/badge/Google%20Sheets-database-ff78c8?style=for-the-badge)
+![Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-automation-ff4db8?style=for-the-badge)
+![Static](https://img.shields.io/badge/No%20Backend-static%20tool-0b0b0b?style=for-the-badge)
 
 </div>
 
@@ -19,23 +21,23 @@ static data + simple automation. no backend.
 - quickly filter and search entries
 - sort key pvp stats (attack / defense / stamina / overall score)
 
-the goal is simple: make the sheet feel like a usable tool, not just a giant table.
+the goal is simple: make the sheet feel like an actual tool, not just a giant table.
 
 ---
 
-## main features
+## features
 
 ### custom menus (apps script)
 
 when the sheet opens, it adds two custom menus:
 
-#### "Pokedex" menu
+**Pokedex menu**
 - **Hide Everything Except Mega**
 - **Hide Everything Except Shadow**
 - **Search Pokemon** (exact name match)
-- **Search By Type** (partial match in type column)
+- **Search By Type** (partial match)
 
-#### "PVP Menu"
+**PVP Menu**
 - **Filter by Highest Attack**
 - **Filter by Highest Defense**
 - **Filter by Highest Stamina**
@@ -47,33 +49,32 @@ when the sheet opens, it adds two custom menus:
 
 this project uses **google apps script** to automate actions inside the sheet:
 
-- `onOpen()` injects the menus into the google sheets UI
+- `onOpen()` injects custom menus into google sheets
 - search + filter functions hide/show rows based on the query
-- pvp functions sort a defined range descending by the chosen stat column
+- pvp functions sort a defined range by chosen stat columns
 
-the script uses fixed ranges like:
+the script currently uses fixed ranges (edit these if your sheet changes):
+
 - pokedex search range: `A4:A14446`
 - type range: `B4:B14446`
 - pvp sorting range: `A4:R891`
 
-these are editable if your sheet size/layout changes.
-
 ---
 
-## how to use (recommended)
+## how to use
 
 ### 1) open the sheet
 use the template link below, then:
-- **File → Make a copy**
-so you can run scripts safely in your own version
+- **File -> Make a copy**
+so you can run scripts in your own copy safely
 
 ### 2) enable scripts
 the first time you open it:
-- allow permissions when google prompts you  
-(this is required for custom menus + filtering/sorting to work)
+- accept the google permissions prompt  
+(this is required for menus + filtering/sorting)
 
 ### 3) use the menus
-reload the sheet once if needed, then look at the top menu bar for:
+reload the sheet once if needed, then use:
 - **Pokedex**
 - **PVP Menu**
 
